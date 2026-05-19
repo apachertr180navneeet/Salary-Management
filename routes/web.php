@@ -2,6 +2,9 @@
 
 use Illuminate\Support\Facades\Route;
 
+use App\Http\Controllers\EmployeeController;
+use App\Http\Controllers\SalaryInsightController;
+
 /*
 |--------------------------------------------------------------------------
 | Web Routes
@@ -13,6 +16,11 @@ use Illuminate\Support\Facades\Route;
 |
 */
 
-Route::get('/', function () {
-    return view('welcome');
-});
+// Main Dashboard is the employee directory and analytical insights hub
+Route::get('/', [EmployeeController::class, 'index'])->name('employees.index');
+
+// Individual CRUD endpoints
+Route::resource('employees', EmployeeController::class)->except(['index']);
+
+// Dynamic AJAX insights analytics endpoint
+Route::get('/salary-insights', [SalaryInsightController::class, 'index'])->name('insights.index');
